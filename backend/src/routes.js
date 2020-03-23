@@ -15,6 +15,7 @@ routes.delete('/sessions/:id', SessionController.destroy)
 
 
 routes.get('/words', WordController.index)
+//routes.get('/words/any', WordController.showAny)
 routes.get('/words/:id', WordController.show)
 routes.post('/words', WordController.store)
 routes.put('/words/:id', WordController.update)

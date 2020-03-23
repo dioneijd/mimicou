@@ -1,17 +1,30 @@
 const Word = require('../models/Word')
 
 module.exports = {
+
+    
     async index(req, res){        
         let words = await Word.find().sort('word')
         return res.json(words)
     },
 
     async show(req, res){
-        const id = req.params.id        
-        let word = await Word.findById(id)
+        let word = {}
+
+        if (req.params.id == 'any'){
+            word = await Word.aggregate([{ $sample: { size: 1 }}])
+            word = word[0]
+        } else {
+            word = await Word.findById(req.params.id)
+        }
 
         return res.json(word)
     },
+
+    // async showAny(req, res){        
+    //     let word = await Word.aggregate([{ $sample: { size: 1 } }])
+    //     return res.json(word[0])
+    // },
 
     async store(req, res){
         const {word, category, score} = req.body
